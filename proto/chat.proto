@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "chatpb";
+
+import "google/protobuf/empty.proto";
+
+message Message {
+    string nickname = 1;
+    string message = 2;
+}
+
+message SendRequest {
+    Message msg = 1;
+}
+
+message ReceiveResponse { 
+    Message msg = 1;
+}
+
+service ChatService {
+  // Sends a message to the chat room
+  rpc Send(SendRequest) returns (google.protobuf.Empty) {};
+
+  // Streams back all other messages from the chat room
+  rpc Receive(google.protobuf.Empty) returns (stream ReceiveResponse) {};
+}
